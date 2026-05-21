@@ -114,6 +114,7 @@ body{
   background:rgba(255,255,255,0.06);
 }
 .page-nav a:hover{opacity:0.95; background:rgba(201,168,76,0.14);}
+.nav-toggle{display:none;border:0;background:transparent;color:#f0ede6;font-size:1.6rem;cursor:pointer;padding:0.35rem 0.6rem;border-radius:8px}
 
 .pdf-modal{
   display:none;
@@ -620,6 +621,8 @@ footer{
   .hero-tagline{max-width:100%;margin-bottom:2rem;}
   .hero-p{max-width:100%;}
   .tband{padding:2rem 1.25rem;}
+  :root{--nav-h:64px}
+  main, section, .sa, .sb, .rc, .cta, header, .wrap, .hero{scroll-margin-top:calc(var(--nav-h) + 8px);} 
   .tband-inner{gap:1rem;}
   .tband-mark{width:24px;}
   .sa,.sb{padding:3rem 1.25rem;}
@@ -628,10 +631,10 @@ footer{
   .pn{padding:1rem 0.75rem;}
   .pb{padding:1rem 0.75rem;}
   .nerve{padding:1.3rem 1.2rem;}
-  .page-nav{flex-direction:row;align-items:center;justify-content:flex-start;gap:0.6rem;overflow-x:auto;padding:1rem 1rem;}
-  .page-nav a{width:auto;min-width:8rem;text-align:center;white-space:nowrap;}
-  .page-nav::-webkit-scrollbar{height:4px;}
-  .page-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:999px;}
+  .page-nav{display:none;}
+  .page-nav.open{display:flex;flex-direction:column;align-items:stretch;gap:0.6rem;position:fixed;top:3.8rem;left:0;right:0;padding:0.75rem 1rem;background:rgba(13,22,53,0.98);backdrop-filter:blur(6px);z-index:1000;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .page-nav a{width:100%;text-align:left;padding:0.6rem 0.9rem;border-radius:8px;background:transparent}
+  .nav-toggle{display:block;position:fixed;top:0.7rem;right:1rem;z-index:1002}
   .cta-h{font-size:clamp(1.8rem, 7vw, 2.6rem);}
   .cta-body{font-size:0.96rem;max-width:100%;}
   .btn{width:100%;padding:1rem 1.25rem;}
@@ -675,7 +678,8 @@ footer{
     <p class="hero-p" style="color:rgba(240,237,230,0.75);font-size:0.95rem;max-width:620px;margin-top:1.5rem;">
       This primer draws from <strong style="color:rgba(240,237,230,0.85);">two papers</strong> — totalling fifty pages — written by a single practitioner after twenty years inside banking data and architecture. The first sets out the architecture and examines where it runs into genuine difficulty. The second addresses how to get there from where most institutions actually stand today.
     </p>
-    <nav class="page-nav">
+    <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="pageNav" aria-label="Open navigation">☰</button>
+    <nav class="page-nav" id="pageNav" role="navigation">
       <a href="#hero">Overview</a>
       <a href="#root-cause">Diagnosis</a>
       <a href="#architecture">Architecture</a>
@@ -937,6 +941,28 @@ footer{
       closePdf();
     }
   });
+})();
+</script>
+
+<script>
+(function(){
+  var navToggle = document.getElementById('navToggle');
+  var pageNav = document.getElementById('pageNav') || document.querySelector('.page-nav');
+  if(navToggle && pageNav){
+    navToggle.addEventListener('click', function(){
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      pageNav.classList.toggle('open');
+    });
+    pageNav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        if(pageNav.classList.contains('open')){
+          pageNav.classList.remove('open');
+          navToggle.setAttribute('aria-expanded','false');
+        }
+      });
+    });
+  }
 })();
 </script>
 
