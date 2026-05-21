@@ -631,10 +631,16 @@ footer{
   .pn{padding:1rem 0.75rem;}
   .pb{padding:1rem 0.75rem;}
   .nerve{padding:1.3rem 1.2rem;}
+  .mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;height:var(--nav-h);align-items:center;gap:0.6rem;padding:0 1rem;background:rgba(13,22,53,0.98);backdrop-filter:blur(6px);z-index:1002;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .mobile-contents{color:#c9a84c;font-family:'DM Mono',monospace;font-size:0.88rem;letter-spacing:0.12em;text-transform:uppercase;margin-left:0.5rem}
   .page-nav{display:none;}
-  .page-nav.open{display:flex;flex-direction:column;align-items:stretch;gap:0.6rem;position:fixed;top:3.8rem;left:0;right:0;padding:0.75rem 1rem;background:rgba(13,22,53,0.98);backdrop-filter:blur(6px);z-index:1000;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .page-nav.open{display:flex;flex-direction:column;align-items:stretch;gap:0.6rem;position:fixed;top:calc(var(--nav-h));left:0;right:0;padding:0.75rem 1rem;background:rgba(13,22,53,0.98);backdrop-filter:blur(6px);z-index:1000;border-bottom:1px solid rgba(255,255,255,0.04);}
   .page-nav a{width:100%;text-align:left;padding:0.6rem 0.9rem;border-radius:8px;background:transparent}
-  .nav-toggle{display:block;position:fixed;top:0.7rem;left:1rem;z-index:1002}
+  .nav-toggle{display:block;border:0;background:transparent;color:#f0ede6;font-size:1.6rem;cursor:pointer;padding:0.35rem 0.6rem;border-radius:8px}
+
+  @media (max-width:680px){
+    .mobile-topbar{display:flex}
+  }
   .cta-h{font-size:clamp(1.8rem, 7vw, 2.6rem);}
   .cta-body{font-size:0.96rem;max-width:100%;}
   .btn{width:100%;padding:1rem 1.25rem;}
@@ -678,7 +684,10 @@ footer{
     <p class="hero-p" style="color:rgba(240,237,230,0.75);font-size:0.95rem;max-width:620px;margin-top:1.5rem;">
       This primer draws from <strong style="color:rgba(240,237,230,0.85);">two papers</strong> — totalling fifty pages — written by a single practitioner after twenty years inside banking data and architecture. The first sets out the architecture and examines where it runs into genuine difficulty. The second addresses how to get there from where most institutions actually stand today.
     </p>
-    <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="pageNav" aria-label="Open navigation">☰</button>
+    <div class="mobile-topbar" id="mobileTopbar" role="banner" aria-hidden="false">
+      <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="pageNav" aria-label="Open navigation">☰</button>
+      <span class="mobile-contents">Contents</span>
+    </div>
     <nav class="page-nav" id="pageNav" role="navigation">
       <a href="#hero">Overview</a>
       <a href="#root-cause">Diagnosis</a>
